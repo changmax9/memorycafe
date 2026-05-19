@@ -8,9 +8,10 @@
   --app-padding: clamp(8px, 1.6vh, 18px);
   --panel-padding: clamp(12px, 1.8vh, 22px);
   --scene-wall-height: clamp(70px, 11vh, 104px);
-  --counter-overlap: clamp(-68px, -7vh, -46px);
+  --counter-overlap: clamp(-88px, -8.2vh, -52px);
   --counter-min-height: clamp(154px, 23vh, 230px);
-  --menu-max-height: clamp(128px, 22vh, 220px);
+  --menu-max-height: clamp(180px, 30vh, 330px);
+  --tray-slot-min: clamp(68px, 5.4vw, 76px);
 }
 
 html,
@@ -324,7 +325,7 @@ h3 {
 
 .scene-floor {
   position: relative;
-  flex: 1 1 auto;
+  flex: 0 1 clamp(196px, 28vh, 300px);
   min-height: clamp(196px, 31vh, 300px);
   height: auto;
   overflow: visible;
@@ -769,6 +770,9 @@ h3 {
   position: relative;
   z-index: 9;
   flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   margin-top: var(--counter-overlap);
 }
 
@@ -834,6 +838,7 @@ h3 {
 
 .wood-counter {
   position: relative;
+  flex: 0 0 auto;
   min-height: var(--counter-min-height);
   padding: clamp(16px, 2.6vh, 28px) clamp(18px, 2.6vw, 28px) clamp(14px, 2.2vh, 24px);
   border-radius: 18px 18px 0 0;
@@ -858,7 +863,7 @@ h3 {
 .tray-panel {
   position: relative;
   z-index: 2;
-  width: min(700px, calc(100% - 292px));
+  width: min(760px, calc(100% - 292px));
   min-width: 520px;
   padding: clamp(10px, 1.5vh, 16px);
   border: 1px solid rgba(74, 42, 23, 0.18);
@@ -882,7 +887,7 @@ h3 {
 
 .order-tray {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--tray-slot-min), 1fr));
   gap: clamp(6px, 0.9vh, 10px);
 }
 
@@ -891,7 +896,7 @@ h3 {
   display: grid;
   place-items: center;
   min-height: clamp(60px, 9.8vh, 88px);
-  padding: 20px 6px 6px;
+  padding: 18px 5px 5px;
   border: 2px dashed #b9875f;
   border-radius: 14px;
   background: #f4dfc2;
@@ -946,10 +951,13 @@ h3 {
 }
 
 .menu-board {
+  flex: 1 1 auto;
+  min-height: 0;
   max-height: var(--menu-max-height);
   padding: clamp(10px, 1.6vh, 18px);
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   border-top: 6px solid #4f3020;
   background: #f8ecd9;
 }
@@ -967,6 +975,22 @@ h3 {
   gap: clamp(7px, 1vh, 10px);
 }
 
+.chunked-menu-board .menu-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+}
+
+.chunked-menu-board .menu-item-card {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.chunked-menu-board .menu-item-line {
+  right: 18px;
+  left: 18px;
+}
+
 .menu-item-card {
   position: relative;
   display: grid;
@@ -974,7 +998,7 @@ h3 {
   gap: 9px;
   align-items: center;
   min-width: 0;
-  min-height: clamp(56px, 8vh, 72px);
+  min-height: clamp(52px, 5.5vh, 62px);
   padding: 8px 10px;
   border: 1px solid rgba(88, 58, 36, 0.18);
   border-radius: 12px;
@@ -996,8 +1020,8 @@ h3 {
 .menu-item-emoji {
   display: grid;
   place-items: center;
-  width: clamp(32px, 4.8vh, 38px);
-  height: clamp(32px, 4.8vh, 38px);
+  width: clamp(30px, 4vh, 34px);
+  height: clamp(30px, 4vh, 34px);
   border-radius: 50%;
   background: #f1d7b5;
   font-size: 1.35rem;
@@ -1008,7 +1032,7 @@ h3 {
   line-height: 1.15;
   min-width: 0;
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   word-break: normal;
 }
 
@@ -1088,11 +1112,11 @@ h3 {
 .item-badge.compact {
   width: 100%;
   min-width: 0;
-  min-height: 40px;
+  min-height: 34px;
   justify-content: center;
-  padding: 7px 6px;
+  padding: 5px 4px;
   border-radius: 10px;
-  font-size: 0.76rem;
+  font-size: clamp(0.66rem, 1.45vh, 0.76rem);
 }
 
 .feedback-receipt {
@@ -1279,8 +1303,9 @@ h3 {
     --panel-padding: 12px;
     --scene-wall-height: 74px;
     --counter-overlap: -48px;
-    --counter-min-height: 150px;
-    --menu-max-height: 138px;
+    --counter-min-height: 138px;
+    --menu-max-height: 150px;
+    --tray-slot-min: 68px;
   }
 
   .top-bar {
@@ -1310,7 +1335,7 @@ h3 {
   }
 
   .tray-slot {
-    min-height: 58px;
+    min-height: 54px;
   }
 
   .menu-item-card {
@@ -1326,8 +1351,9 @@ h3 {
   :root {
     --scene-wall-height: 62px;
     --counter-overlap: -40px;
-    --counter-min-height: 138px;
-    --menu-max-height: 122px;
+    --counter-min-height: 126px;
+    --menu-max-height: 132px;
+    --tray-slot-min: 64px;
   }
 
   h1 {
