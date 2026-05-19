@@ -5,6 +5,19 @@
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+  --app-padding: clamp(8px, 1.6vh, 18px);
+  --panel-padding: clamp(12px, 1.8vh, 22px);
+  --scene-wall-height: clamp(70px, 11vh, 104px);
+  --counter-overlap: clamp(-68px, -7vh, -46px);
+  --counter-min-height: clamp(154px, 23vh, 230px);
+  --menu-max-height: clamp(128px, 22vh, 220px);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow-y: hidden;
 }
 
 * {
@@ -14,7 +27,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 button {
@@ -38,8 +51,10 @@ p {
 }
 
 .app-shell {
-  min-height: 100vh;
-  padding: 18px;
+  height: 100dvh;
+  min-height: 0;
+  padding: var(--app-padding);
+  overflow: hidden;
   background:
     linear-gradient(90deg, rgba(93, 62, 43, 0.07) 1px, transparent 1px),
     linear-gradient(180deg, #f7ebdc 0%, #e4cfb4 100%);
@@ -48,9 +63,13 @@ p {
 
 .game-panel {
   width: min(1180px, 100%);
-  min-height: calc(100vh - 36px);
+  height: calc(100dvh - (var(--app-padding) * 2));
+  min-height: 0;
   margin: 0 auto;
-  padding: 22px;
+  padding: var(--panel-padding);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border: 1px solid rgba(73, 46, 30, 0.18);
   border-radius: 24px;
   background: rgba(255, 250, 241, 0.94);
@@ -67,20 +86,21 @@ p {
 }
 
 .top-bar {
-  margin-bottom: 18px;
+  flex: 0 0 auto;
+  margin-bottom: clamp(8px, 1.4vh, 18px);
 }
 
 h1 {
   margin-bottom: 0;
   color: #3b2417;
-  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-size: clamp(1.85rem, 3.2vw, 3.15rem);
   line-height: 1;
 }
 
 h2 {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: #3c271b;
-  font-size: clamp(1.55rem, 2.8vw, 2.4rem);
+  font-size: clamp(1.3rem, 2.2vw, 2.1rem);
   line-height: 1.08;
 }
 
@@ -132,7 +152,7 @@ h3 {
 
 .score-card {
   min-width: 140px;
-  padding: 12px 15px;
+  padding: clamp(8px, 1.1vh, 12px) 14px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 14px;
   background: #2f2118;
@@ -158,6 +178,7 @@ h3 {
 
 .start-screen,
 .end-screen {
+  flex: 1 1 auto;
   display: grid;
   place-items: center;
   min-height: 65vh;
@@ -218,15 +239,24 @@ h3 {
 }
 
 .level-screen {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   padding-top: 2px;
 }
 
 .level-header {
-  margin-bottom: 12px;
+  flex: 0 0 auto;
+  margin-bottom: clamp(6px, 1vh, 12px);
 }
 
 .cafe-scene {
   position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(70, 44, 27, 0.16);
   border-radius: 22px;
@@ -236,7 +266,8 @@ h3 {
 
 .cafe-wall {
   position: relative;
-  height: 120px;
+  flex: 0 0 var(--scene-wall-height);
+  height: var(--scene-wall-height);
   background:
     linear-gradient(90deg, rgba(115, 81, 55, 0.11) 1px, transparent 1px),
     linear-gradient(180deg, #e7caab, #f6e6d2);
@@ -245,20 +276,20 @@ h3 {
 
 .wall-shelf {
   position: absolute;
-  top: 30px;
+  top: clamp(18px, 3.2vh, 30px);
   left: 34px;
   display: flex;
   gap: 15px;
   align-items: flex-end;
-  width: 248px;
-  height: 54px;
-  padding: 0 22px 9px;
-  border-bottom: 9px solid #7b4b2e;
+  width: clamp(178px, 24vw, 248px);
+  height: clamp(38px, 6vh, 54px);
+  padding: 0 18px 7px;
+  border-bottom: clamp(6px, 1vh, 9px) solid #7b4b2e;
 }
 
 .wall-shelf span {
-  width: 36px;
-  height: 42px;
+  width: clamp(26px, 3.6vh, 36px);
+  height: clamp(30px, 5vh, 42px);
   border-radius: 8px 8px 4px 4px;
   background: #fff7e9;
   box-shadow: inset 0 -12px #9f6a43;
@@ -266,13 +297,13 @@ h3 {
 
 .round-clock {
   position: absolute;
-  top: 18px;
+  top: clamp(10px, 2vh, 18px);
   right: 34px;
   display: grid;
   place-items: center;
-  width: 88px;
-  height: 88px;
-  border: 8px solid #7b4b2e;
+  width: clamp(62px, 9vh, 88px);
+  height: clamp(62px, 9vh, 88px);
+  border: clamp(5px, 0.8vh, 8px) solid #7b4b2e;
   border-radius: 50%;
   background: #fff8ed;
   box-shadow: 0 8px 18px rgba(72, 44, 27, 0.16);
@@ -280,7 +311,7 @@ h3 {
 
 .round-clock strong {
   color: #3f281b;
-  font-size: 2rem;
+  font-size: clamp(1.35rem, 3.4vh, 2rem);
   line-height: 0.9;
 }
 
@@ -293,7 +324,9 @@ h3 {
 
 .scene-floor {
   position: relative;
-  height: clamp(310px, 36vw, 390px);
+  flex: 1 1 auto;
+  min-height: clamp(196px, 31vh, 300px);
+  height: auto;
   overflow: visible;
   background:
     linear-gradient(180deg, transparent 0 62%, rgba(91, 60, 38, 0.08) 62% 100%),
@@ -325,7 +358,7 @@ h3 {
 
 .queue-position {
   position: absolute;
-  bottom: 26px;
+  bottom: clamp(10px, 3vh, 26px);
   transition: transform 420ms ease, opacity 420ms ease;
   animation: customer-advance 420ms ease both;
 }
@@ -372,13 +405,13 @@ h3 {
 
 .customer-character {
   position: relative;
-  width: 94px;
-  height: 210px;
+  width: clamp(74px, 8vw, 94px);
+  height: clamp(162px, 27vh, 210px);
 }
 
 .customer-character.active {
-  width: 116px;
-  height: 238px;
+  width: clamp(90px, 9.8vw, 116px);
+  height: clamp(184px, 30vh, 238px);
 }
 
 .customer-shadow,
@@ -397,11 +430,11 @@ h3 {
   right: 12px;
   bottom: 7px;
   left: 12px;
-  height: 200px;
+  height: calc(100% - 10px);
 }
 
 .customer-character.active .customer-body {
-  height: 226px;
+  height: calc(100% - 12px);
 }
 
 .head,
@@ -564,7 +597,7 @@ h3 {
 
 .legs {
   position: absolute;
-  top: 144px;
+  top: 72%;
   left: 50%;
   display: flex;
   gap: 8px;
@@ -572,7 +605,7 @@ h3 {
 }
 
 .customer-character.active .legs {
-  top: 160px;
+  top: 72%;
 }
 
 .legs span {
@@ -587,8 +620,8 @@ h3 {
   right: 19%;
   bottom: -5px;
   z-index: 4;
-  width: 148px;
-  height: 250px;
+  width: clamp(112px, 12vw, 148px);
+  height: clamp(188px, 31vh, 250px);
 }
 
 .barista-body {
@@ -683,7 +716,7 @@ h3 {
   z-index: 8;
   width: min(620px, calc(100% - 170px));
   max-width: 68%;
-  padding: 14px 16px;
+  padding: clamp(10px, 1.4vh, 14px) 16px;
   border: 3px solid #654029;
   border-radius: 22px 22px 22px 6px;
   background: #fffaf0;
@@ -735,7 +768,8 @@ h3 {
 .counter-zone {
   position: relative;
   z-index: 9;
-  margin-top: -78px;
+  flex: 0 0 auto;
+  margin-top: var(--counter-overlap);
 }
 
 .counter-props {
@@ -800,8 +834,8 @@ h3 {
 
 .wood-counter {
   position: relative;
-  min-height: 230px;
-  padding: 28px 28px 24px;
+  min-height: var(--counter-min-height);
+  padding: clamp(16px, 2.6vh, 28px) clamp(18px, 2.6vw, 28px) clamp(14px, 2.2vh, 24px);
   border-radius: 18px 18px 0 0;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 34%),
@@ -826,7 +860,7 @@ h3 {
   z-index: 2;
   width: min(700px, calc(100% - 292px));
   min-width: 520px;
-  padding: 16px;
+  padding: clamp(10px, 1.5vh, 16px);
   border: 1px solid rgba(74, 42, 23, 0.18);
   border-radius: 16px;
   background: rgba(255, 247, 232, 0.9);
@@ -837,7 +871,7 @@ h3 {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: clamp(7px, 1.2vh, 12px);
   color: #3f281b;
   font-weight: 900;
 }
@@ -848,16 +882,16 @@ h3 {
 
 .order-tray {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: clamp(6px, 0.9vh, 10px);
 }
 
 .tray-slot {
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 88px;
-  padding: 22px 8px 8px;
+  min-height: clamp(60px, 9.8vh, 88px);
+  padding: 20px 6px 6px;
   border: 2px dashed #b9875f;
   border-radius: 14px;
   background: #f4dfc2;
@@ -903,7 +937,7 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: clamp(8px, 1.4vh, 14px);
 }
 
 .tray-actions .primary-button {
@@ -912,21 +946,25 @@ h3 {
 }
 
 .menu-board {
-  padding: 18px;
+  max-height: var(--menu-max-height);
+  padding: clamp(10px, 1.6vh, 18px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   border-top: 6px solid #4f3020;
   background: #f8ecd9;
 }
 
 .single-menu-board h3,
 .menu-shelf h3 {
+  margin-bottom: 7px;
   color: #4b3020;
   font-size: 1rem;
 }
 
 .menu-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(142px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: clamp(7px, 1vh, 10px);
 }
 
 .menu-item-card {
@@ -936,8 +974,8 @@ h3 {
   gap: 9px;
   align-items: center;
   min-width: 0;
-  min-height: 72px;
-  padding: 10px 11px;
+  min-height: clamp(56px, 8vh, 72px);
+  padding: 8px 10px;
   border: 1px solid rgba(88, 58, 36, 0.18);
   border-radius: 12px;
   background:
@@ -958,8 +996,8 @@ h3 {
 .menu-item-emoji {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: clamp(32px, 4.8vh, 38px);
+  height: clamp(32px, 4.8vh, 38px);
   border-radius: 50%;
   background: #f1d7b5;
   font-size: 1.35rem;
@@ -987,13 +1025,13 @@ h3 {
 .chunked-menu-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: clamp(8px, 1.1vh, 14px);
 }
 
 .chunking-sign {
   grid-column: 1 / -1;
   margin-bottom: 0;
-  padding: 11px 14px;
+  padding: 8px 12px;
   border-left: 5px solid #6f8f68;
   border-radius: 10px;
   background: #e5f0df;
@@ -1002,7 +1040,7 @@ h3 {
 }
 
 .menu-shelf {
-  padding: 14px;
+  padding: clamp(8px, 1.3vh, 14px);
   border: 1px solid rgba(71, 43, 27, 0.14);
   border-radius: 14px;
   background: #fff8ed;
@@ -1023,13 +1061,13 @@ h3 {
   justify-content: center;
   gap: 7px;
   max-width: 100%;
-  min-height: 40px;
-  padding: 9px 10px;
+  min-height: 34px;
+  padding: 7px 9px;
   border: 1px solid rgba(91, 57, 33, 0.18);
   border-radius: 999px;
   background: #fffaf3;
   box-shadow: 0 6px 12px rgba(96, 60, 32, 0.08);
-  font-size: 0.9rem;
+  font-size: clamp(0.78rem, 1.8vh, 0.9rem);
   font-weight: 850;
   line-height: 1.12;
   text-align: center;
@@ -1050,7 +1088,7 @@ h3 {
 .item-badge.compact {
   width: 100%;
   min-width: 0;
-  min-height: 48px;
+  min-height: 40px;
   justify-content: center;
   padding: 7px 6px;
   border-radius: 10px;
@@ -1060,7 +1098,7 @@ h3 {
 .feedback-receipt {
   position: absolute;
   right: 28px;
-  bottom: 235px;
+  bottom: clamp(162px, 25vh, 235px);
   z-index: 20;
   width: min(520px, calc(100% - 56px));
   padding: 20px;
@@ -1235,13 +1273,115 @@ h3 {
   }
 }
 
+@media (max-height: 850px) and (min-width: 761px) {
+  :root {
+    --app-padding: 8px;
+    --panel-padding: 12px;
+    --scene-wall-height: 74px;
+    --counter-overlap: -48px;
+    --counter-min-height: 150px;
+    --menu-max-height: 138px;
+  }
+
+  .top-bar {
+    margin-bottom: 7px;
+  }
+
+  .level-header {
+    margin-bottom: 5px;
+  }
+
+  .score-card span,
+  .score-card small,
+  .eyebrow {
+    font-size: 0.7rem;
+  }
+
+  .score-card strong {
+    font-size: 1.08rem;
+  }
+
+  .scene-floor {
+    min-height: 206px;
+  }
+
+  .wood-counter {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .tray-slot {
+    min-height: 58px;
+  }
+
+  .menu-item-card {
+    min-height: 52px;
+  }
+
+  .chunking-sign {
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-height: 750px) and (min-width: 761px) {
+  :root {
+    --scene-wall-height: 62px;
+    --counter-overlap: -40px;
+    --counter-min-height: 138px;
+    --menu-max-height: 122px;
+  }
+
+  h1 {
+    font-size: clamp(1.65rem, 2.7vw, 2.45rem);
+  }
+
+  h2 {
+    font-size: clamp(1.12rem, 1.8vw, 1.65rem);
+  }
+
+  .primary-button,
+  .ghost-button,
+  .tray-actions button {
+    min-height: 36px;
+  }
+
+  .scene-floor {
+    min-height: 182px;
+  }
+
+  .barista {
+    transform: scale(0.88);
+    transform-origin: bottom center;
+  }
+
+  .customer-character {
+    transform: scale(0.88);
+    transform-origin: bottom center;
+  }
+
+  .order-bubble {
+    max-width: 64%;
+  }
+
+  .order-sequence {
+    gap: 6px;
+  }
+
+  .item-badge {
+    min-height: 30px;
+    padding: 6px 8px;
+  }
+}
+
 @media (max-width: 760px) {
   .app-shell {
     padding: 10px;
+    overflow-y: auto;
   }
 
   .game-panel {
-    min-height: calc(100vh - 20px);
+    height: auto;
+    min-height: calc(100dvh - 20px);
+    overflow: visible;
     padding: 16px;
     border-radius: 18px;
   }
