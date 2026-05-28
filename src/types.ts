@@ -10,11 +10,17 @@ export type Item = {
 export type Level = {
   id: number;
   title: string;
-  order: string[];
-  choices: string[];
+  orderLength: number;
+  availableItemIds: string[];
+  distractorItemIds: string[];
   studySeconds: number;
   chunkingEnabled: boolean;
   note?: string;
+};
+
+export type RoundLevel = Level & {
+  order: string[];
+  choices: string[];
 };
 
 export type PlayerAnswer = {

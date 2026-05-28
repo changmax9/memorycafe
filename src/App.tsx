@@ -1,27 +1,50 @@
 import { useEffect, useState } from 'react';
 import CafeScene from './components/CafeScene';
 import { levels } from './gameData';
-import type { GamePhase, PlayerAnswer } from './types';
-import { shuffleArray } from './utils/shuffle';
+import type { GamePhase, Level, PlayerAnswer, RoundLevel } from './types';
+import { sampleItems, shuffleArray } from './utils/shuffle';
+
+type RoundData = {
+  order: string[];
+  choices: string[];
+};
+
+const uniqueItemIds = (itemIds: string[]) => [...new Set(itemIds)];
+
+function generateRoundData(level: Level): RoundData {
+  if (level.orderLength > level.availableItemIds.length) {
+    throw new Error(`Level ${level.id} needs ${level.orderLength} items, but only has ${level.availableItemIds.length}.`);
+  }
+
+  const order = sampleItems(level.availableItemIds, level.orderLength);
+  const unusedAvailableItems = level.availableItemIds.filter((itemId) => !order.includes(itemId));
+  const distractors = uniqueItemIds([...level.distractorItemIds, ...unusedAvailableItems]).filter(
+    (itemId) => !order.includes(itemId)
+  );
+  const choices = shuffleArray(uniqueItemIds([...order, ...distractors]));
+
+  return { order, choices };
+}
 
 function App() {
   const [phase, setPhase] = useState<GamePhase>('start');
   const [levelIndex, setLevelIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(levels[0].studySeconds);
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
-  const [shuffledChoices, setShuffledChoices] = useState<string[]>(() => shuffleArray(levels[0].choices));
+  const [roundData, setRoundData] = useState<RoundData>(() => generateRoundData(levels[0]));
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [lastAnswer, setLastAnswer] = useState<PlayerAnswer | null>(null);
   const [showPsychCheck, setShowPsychCheck] = useState(false);
 
   const level = levels[levelIndex];
-  const totalPossible = answers.reduce((sum, answer) => sum + levels[answer.levelId - 1].order.length, 0);
+  const currentLevel: RoundLevel = {
+    ...level,
+    order: roundData.order,
+    choices: roundData.choices
+  };
+  const totalPossible = answers.reduce((sum, answer) => sum + levels[answer.levelId - 1].orderLength, 0);
   const totalCorrect = answers.reduce((sum, answer) => sum + answer.correctByPosition, 0);
   const currentAccuracy = totalPossible > 0 ? Math.round((totalCorrect / totalPossible) * 100) : 0;
-
-  useEffect(() => {
-    setShuffledChoices(shuffleArray(level.choices));
-  }, [level.id, level.choices]);
 
   useEffect(() => {
     if (phase !== 'study') {
@@ -44,17 +67,21 @@ function App() {
     return () => window.clearInterval(interval);
   }, [phase, level.studySeconds]);
 
-  const startGame = () => {
-    setAnswers([]);
-    setLastAnswer(null);
-    setLevelIndex(0);
-    setShuffledChoices(shuffleArray(levels[0].choices));
+  const startLevel = (nextLevelIndex: number) => {
+    setLevelIndex(nextLevelIndex);
+    setRoundData(generateRoundData(levels[nextLevelIndex]));
     setSelectedItemIds([]);
+    setLastAnswer(null);
     setPhase('study');
   };
 
+  const startGame = () => {
+    setAnswers([]);
+    startLevel(0);
+  };
+
   const addItem = (itemId: string) => {
-    if (phase !== 'build' || selectedItemIds.length >= level.order.length) {
+    if (phase !== 'build' || selectedItemIds.length >= roundData.order.length) {
       return;
     }
 
@@ -70,12 +97,12 @@ function App() {
   };
 
   const submitAnswer = () => {
-    const correctByPosition = level.order.reduce((score, itemId, index) => {
+    const correctByPosition = roundData.order.reduce((score, itemId, index) => {
       return score + (selectedItemIds[index] === itemId ? 1 : 0);
     }, 0);
 
-    const missedItems = level.order.filter((itemId, index) => selectedItemIds[index] !== itemId);
-    const incorrectItems = selectedItemIds.filter((itemId, index) => level.order[index] !== itemId);
+    const missedItems = roundData.order.filter((itemId, index) => selectedItemIds[index] !== itemId);
+    const incorrectItems = selectedItemIds.filter((itemId, index) => roundData.order[index] !== itemId);
     const answer: PlayerAnswer = {
       levelId: level.id,
       selectedItemIds,
@@ -95,13 +122,10 @@ function App() {
       return;
     }
 
-    setLevelIndex((current) => current + 1);
-    setSelectedItemIds([]);
-    setLastAnswer(null);
-    setPhase('study');
+    startLevel(levelIndex + 1);
   };
 
-  const finalPossible = levels.reduce((sum, currentLevel) => sum + currentLevel.order.length, 0);
+  const finalPossible = levels.reduce((sum, currentLevel) => sum + currentLevel.orderLength, 0);
   const finalCorrect = answers.reduce((sum, answer) => sum + answer.correctByPosition, 0);
   const finalAccuracy = finalPossible > 0 ? Math.round((finalCorrect / finalPossible) * 100) : 0;
 
@@ -157,9 +181,9 @@ function App() {
 
             <CafeScene
               answer={lastAnswer}
-              canSubmit={selectedItemIds.length === level.order.length}
-              choiceIds={shuffledChoices}
-              level={level}
+              canSubmit={selectedItemIds.length === roundData.order.length}
+              choiceIds={roundData.choices}
+              level={currentLevel}
               levelIndex={levelIndex}
               isFinalLevel={levelIndex === levels.length - 1}
               phase={phase}

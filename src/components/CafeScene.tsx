@@ -1,4 +1,4 @@
-import type { GamePhase, Level, PlayerAnswer } from '../types';
+import type { GamePhase, PlayerAnswer, RoundLevel } from '../types';
 import Barista from './Barista';
 import CafeCounter from './CafeCounter';
 import CustomerQueue from './CustomerQueue';
@@ -10,7 +10,7 @@ type CafeSceneProps = {
   canSubmit: boolean;
   choiceIds: string[];
   isFinalLevel: boolean;
-  level: Level;
+  level: RoundLevel;
   levelIndex: number;
   phase: GamePhase;
   selectedItemIds: string[];

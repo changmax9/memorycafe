@@ -23,24 +23,27 @@ export const levels: Level[] = [
   {
     id: 1,
     title: 'Morning Warm-Up',
-    order: ['coffee', 'croissant', 'apple'],
-    choices: ['coffee', 'tea', 'croissant', 'muffin', 'apple'],
+    orderLength: 3,
+    availableItemIds: ['coffee', 'croissant', 'apple', 'tea', 'muffin'],
+    distractorItemIds: ['tea', 'muffin'],
     studySeconds: 7,
     chunkingEnabled: false
   },
   {
     id: 2,
     title: 'First Rush',
-    order: ['tea', 'muffin', 'banana', 'coffee'],
-    choices: ['coffee', 'tea', 'latte', 'muffin', 'donut', 'banana'],
+    orderLength: 4,
+    availableItemIds: ['coffee', 'tea', 'latte', 'muffin', 'donut', 'banana'],
+    distractorItemIds: ['latte', 'donut'],
     studySeconds: 7,
     chunkingEnabled: false
   },
   {
     id: 3,
     title: 'Busy Counter',
-    order: ['latte', 'bagel', 'berries', 'donut', 'tea'],
-    choices: ['coffee', 'latte', 'tea', 'bagel', 'donut', 'croissant', 'berries', 'apple'],
+    orderLength: 5,
+    availableItemIds: ['coffee', 'latte', 'tea', 'bagel', 'donut', 'croissant', 'berries', 'apple'],
+    distractorItemIds: ['coffee', 'croissant', 'apple'],
     studySeconds: 6,
     chunkingEnabled: false,
     note: 'Orders are getting longer. Notice how easy it is to lose the sequence.'
@@ -48,16 +51,18 @@ export const levels: Level[] = [
   {
     id: 4,
     title: 'Lunch Line',
-    order: ['smoothie', 'cake', 'pretzel', 'coffee', 'banana', 'muffin'],
-    choices: ['coffee', 'smoothie', 'tea', 'cake', 'muffin', 'bagel', 'pretzel', 'banana', 'cookie'],
+    orderLength: 6,
+    availableItemIds: ['coffee', 'smoothie', 'tea', 'cake', 'muffin', 'bagel', 'pretzel', 'banana', 'cookie'],
+    distractorItemIds: ['tea', 'bagel', 'cookie'],
     studySeconds: 5,
     chunkingEnabled: false
   },
   {
     id: 5,
     title: 'Strategy Shift',
-    order: ['latte', 'croissant', 'apple', 'tea', 'cookie', 'bagel'],
-    choices: ['coffee', 'latte', 'tea', 'iced-tea', 'croissant', 'bagel', 'cookie', 'apple', 'berries'],
+    orderLength: 6,
+    availableItemIds: ['coffee', 'latte', 'tea', 'iced-tea', 'croissant', 'bagel', 'cookie', 'apple', 'berries'],
+    distractorItemIds: ['coffee', 'iced-tea', 'berries'],
     studySeconds: 5,
     chunkingEnabled: true,
     note: 'Chunking strategy unlocked: group items into meaningful categories.'
@@ -65,24 +70,27 @@ export const levels: Level[] = [
   {
     id: 6,
     title: 'Look-Alike Drinks',
-    order: ['iced-latte', 'donut', 'berries', 'latte', 'cake', 'iced-tea'],
-    choices: ['latte', 'iced-latte', 'tea', 'iced-tea', 'donut', 'cake', 'croissant', 'berries', 'banana', 'cookie'],
+    orderLength: 6,
+    availableItemIds: ['latte', 'iced-latte', 'tea', 'iced-tea', 'donut', 'cake', 'croissant', 'berries', 'banana', 'cookie'],
+    distractorItemIds: ['tea', 'croissant', 'banana', 'cookie'],
     studySeconds: 4,
     chunkingEnabled: true
   },
   {
     id: 7,
     title: 'Closing Rush',
-    order: ['coffee', 'bagel', 'banana', 'iced-tea', 'muffin', 'apple', 'latte'],
-    choices: ['coffee', 'latte', 'iced-latte', 'tea', 'iced-tea', 'bagel', 'muffin', 'donut', 'banana', 'apple', 'pretzel'],
+    orderLength: 7,
+    availableItemIds: ['coffee', 'latte', 'iced-latte', 'tea', 'iced-tea', 'bagel', 'muffin', 'donut', 'banana', 'apple', 'pretzel'],
+    distractorItemIds: ['iced-latte', 'tea', 'donut', 'pretzel'],
     studySeconds: 4,
     chunkingEnabled: true
   },
   {
     id: 8,
     title: 'Memory Café Finale',
-    order: ['iced-latte', 'croissant', 'berries', 'tea', 'cake', 'pretzel', 'iced-tea', 'cookie'],
-    choices: ['coffee', 'latte', 'iced-latte', 'tea', 'iced-tea', 'smoothie', 'croissant', 'muffin', 'cake', 'berries', 'pretzel', 'cookie'],
+    orderLength: 8,
+    availableItemIds: ['coffee', 'latte', 'iced-latte', 'tea', 'iced-tea', 'smoothie', 'croissant', 'muffin', 'cake', 'berries', 'pretzel', 'cookie'],
+    distractorItemIds: ['coffee', 'latte', 'smoothie', 'muffin'],
     studySeconds: 4,
     chunkingEnabled: true
   }

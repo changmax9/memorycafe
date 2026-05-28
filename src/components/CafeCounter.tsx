@@ -1,4 +1,4 @@
-import type { Category, Level } from '../types';
+import type { Category, RoundLevel } from '../types';
 import { getItemById } from '../gameData';
 import MenuItemCard from './MenuItemCard';
 import OrderTray from './OrderTray';
@@ -6,7 +6,7 @@ import OrderTray from './OrderTray';
 const categories: Category[] = ['Drinks', 'Pastries', 'Fruit / Snacks'];
 
 type CafeCounterProps = {
-  level: Level;
+  level: RoundLevel;
   choiceIds: string[];
   selectedItemIds: string[];
   canSubmit: boolean;
@@ -76,7 +76,7 @@ function MenuShelves({
   onAddItem
 }: {
   choiceIds: string[];
-  level: Level;
+  level: RoundLevel;
   onAddItem: (itemId: string) => void;
 }) {
   if (!level.chunkingEnabled) {
